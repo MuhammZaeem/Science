@@ -3,8 +3,11 @@
   <script type="text/javascript">
     function Hey() {
       alert(
-        "Hey this is Hacker Usman speaking for your kind information clicking this will Rickroll you.This trap was setup by my master intelligent Zaeem"
+        "Hey this is Hacker Zaeem speaking for your kind information, clicking this will Rickroll you.This trap was setup by my master intelligent Zaeem"
       );
+    }
+    function out() {
+      alert("Phew you are saved from master Zaeem");
     }
   </script>
 
@@ -29,11 +32,16 @@
   <body>
     <h3>Click our school to open Universal Science grade 6</h3>
     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-      ><img onmouseover="Hey()" src="images.jpg" alt=""
+      ><img onmouseout="out()" onmouseover="Hey()" src="images.jpg" alt=""
     /></a>
     <br />
     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
-      ><img id(img1) onmouseover="Hey()" src="school.jpg" alt=""
+      ><img
+        id(img1)
+        onmouseout="out()"
+        onmouseover="Hey()"
+        src="school.jpg"
+        alt=""
     /></a>
     <br />
     <a href="Universal Science.html"
@@ -44,6 +52,7 @@
       ><img
         id(img1)
         onmouseover="Hey()"
+        onmouseout="out()"
         src="mount-carmel-central-school-konchady-mangalore-colleges.jpg"
         alt="not our school and not available "
         a
