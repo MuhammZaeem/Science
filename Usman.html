@@ -1,64 +1,68 @@
+
+
+
 <!DOCTYPE html>
-<html lang="en">
-  <script type="text/javascript">
-    function Hey() {
-      alert(
-        "Hey this is Hacker Zaeem speaking for your kind information, clicking this will Rickroll you.This trap was setup by my master intelligent Zaeem"
-      );
-    }
-    function out() {
-      alert("Phew you are saved from master Zaeem");
-    }
-  </script>
+<html>
+<head>
+    <title>Password Generator</title>
+</head>
+<body>
+    <h1>Password Generator</h1>
+    <form id="passwordForm">
+        <label for="passwordType">Choose password type:</label>
+        <select id="passwordType" name="passwordType">
+            <option value="str">Alphabet Password</option>
+            <option value="int">Number Password</option>
+        </select><br>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>For Usman</title>
-    <style>
-      img {
-        width: 500px;
-        border-radius: 50px;
-        border-style: hidden;
-      }
-      img.manipal {
-        width: 530px;
-      }
-      h3 {
-        color: red;
-      }
-    </style>
-  </head>
-  <body>
-    <h3>Click our school to open Universal Science grade 6</h3>
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-      ><img onmouseout="out()" onmouseover="Hey()" src="images.jpg" alt=""
-    /></a>
-    <br />
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
-      ><img
-        id(img1)
-        onmouseout="out()"
-        onmouseover="Hey()"
-        src="school.jpg"
-        alt=""
-    /></a>
-    <br />
-    <a href="Universal Science.html"
-      ><img class="manipal" src="download.jpg" alt=""
-    /></a>
-    <br />
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-      ><img
-        id(img1)
-        onmouseover="Hey()"
-        onmouseout="out()"
-        src="mount-carmel-central-school-konchady-mangalore-colleges.jpg"
-        alt="not our school and not available "
-        a
-      />
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br>
 
-      /></a
-    >
-  </body>
+        <label for="likes">Likes (comma-separated):</label>
+        <input type="text" id="likes" name="likes"><br>
+
+        <label for="numPasswords">Number of passwords:</label>
+        <input type="number" id="numPasswords" name="numPasswords"><br>
+
+        <button type="button" onclick="generatePasswords()">Generate Passwords</button>
+    </form>
+
+    <h2>Generated Passwords:</h2>
+    <div id="passwordOutput"></div>
+
+    <script>
+        function generatePasswords() {
+            var passwordType = document.getElementById("passwordType").value;
+            var name = document.getElementById("name").value;
+            var likes = document.getElementById("likes").value.split(",");
+            var numPasswords = parseInt(document.getElementById("numPasswords").value);
+
+            var passwords = [];
+
+            if (passwordType === "str") {
+                for (var i = 0; i < likes.length; i++) {
+                    passwords.push(name + likes[i].trim());
+                }
+            } else {
+                for (var i = 0; i < numPasswords; i++) {
+                    passwords.push(generateNumberPassword());
+                }
+            }
+
+            var passwordOutput = document.getElementById("passwordOutput");
+            passwordOutput.innerHTML = passwords.join("<br>");
+        }
+
+        function generateNumberPassword() {
+            var length = Math.floor(Math.random() * 10) + 1;
+            var password = "";
+
+            for (var i = 0; i < length; i++) {
+                password += Math.floor(Math.random() * 10);
+            }
+
+            return password;
+        }
+    </script>
+</body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Verification</title>
+</head>
+<body>
+    <h1>Password Verification</h1>
+    <form id="passwordForm">
+        <label for="password">Enter password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        var storedPassword = ""; // Replace with the initial password hash
+
+        function hashPassword(password) {
+            var hasher = new TextEncoder().encode(password);
+            return crypto.subtle.digest("SHA-256", hasher).then(hashBuffer => {
+                var hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+            });
+        }
+
+        function verifyPassword(inputPassword, hashedPassword) {
+            return hashPassword(inputPassword).then(hash => hash === hashedPassword);
+        }
+
+        document.getElementById("passwordForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var userPassword = document.getElementById("password").value;
+
+            if (userPassword.toLowerCase() === "usman") {
+                window.location.href = "Usman.html";
+            } else if (userPassword.toLowerCase() === "games") {
+                window.location.href = "index.html";
+            } else if (userPassword === "chasdecvfgbnhmjcvbfgsdf!@#$%^&*#$%^&*&#$%^&*%^&*(*$%^&^@#$%^$%^&#$%^&$%^&!@#$%^qwerTYUuytreertyuinge") {
+                changePassword();
+            } else {
+                verifyPassword(userPassword, storedPassword).then(isCorrect => {
+                    if (isCorrect) {
+                        document.getElementById("output").textContent = "Password is correct!";
+                    } else {
+                        document.getElementById("output").textContent = "Password is incorrect!";
+                    }
+                });
+            }
+        });
+
+        function changePassword() {
+            var newPassword = prompt("Enter new password: ");
+            if (newPassword) {
+                hashPassword(newPassword).then(newHashedPassword => {
+                    storedPassword = newHashedPassword;
+                    alert("Password changed successfully.");
+                });
+            }
+        }
+    </script>
+</body>
+</html>
