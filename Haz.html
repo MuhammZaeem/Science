@@ -16,20 +16,19 @@
 </style>
 </head>
 <body>
-  <h1>>Is the input a number?</h1>
-  <button onmouseover= "huh" id="yesBtn">Yes</button>
+  <h1>Is the input a number?</h1>
+  <button onmouseover="huh()" id="yesBtn">Yes</button>
   <button id="noBtn">No</button>
   <script>
-  function huh {
-    alert("Do Not Dare Press This")
-    console.log("Do Not Dare Press This")
-  }
-document.getElementById("yesBtn").addEventListener("click", function() {
-    document.getElementById("message").innerHTML = "LIAR";
-    alert("LIAR")
-});
+    function huh() {
+      alert("Do Not Dare Press This");
+      console.log("Do Not Dare Press This");
+    }
 
-
+    document.getElementById("yesBtn").addEventListener("click", function() {
+      document.getElementById("message").innerHTML = "LIAR";
+      alert("LIAR");
+    });
 
     document.getElementById("noBtn").addEventListener("click", function() {
       // Close the error page
