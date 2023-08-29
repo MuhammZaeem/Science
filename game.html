@@ -52,8 +52,6 @@
   </style>
 </head>
 <body>
-  <h1>Word Games</h1>
-
   <div class="game-container">
     <h2>Select a Game</h2>
     <button onclick="startHangmanGame()">Hangman</button>
@@ -85,9 +83,11 @@
            "abruptly", "absurd", "abyss", "affix", "askew", "avenue", "awkward", "axiom", "azure", "bagpipes", "bandwagon", "banjo", "bayou", "beekeeper", "bikini", "blitz", "blizzard", "boggle", "bookworm", "boxcar", "boxful", "buckaroo", "buffalo", "buffoon", "buxom", "buzzard", "buzzing", "buzzwords", "caliph", "cobweb", "cockiness", "croquet", "crypt", "curacao", "cycle", "daiquiri", "dirndl", "disavow", "dizzying", "duplex", "dwarves", "embezzle", "equip", "espionage", "euouae", "exodus", "faking", "fishhook", "fixable", "fjord", "flapjack", "flopping", "fluffiness", "flyby", "foxglove", "frazzled", "frizzled", "fuchsia", "funny", "gabby", "galaxy", "galvanize", "gazebo", "giaour", "gizmo", "glowworm", "glyph", "gnarly", "gnostic", "gossip", "grogginess", "haiku", "haphazard", "hyphen", "iatrogenic", "icebox", "injury", "ivory", "ivy", "jackpot", "jaundice", "jawbreaker", "jaywalk", "jazziest", "jazzy", "jelly", "jigsaw", "jinx", "jiujitsu", "jockey", "jogging", "joking", "jovial", "joyful", "juicy", "jukebox", "jumbo", "kayak", "kazoo", "keyhole", "khaki", "kilobyte", "kiosk", "kitsch", "kiwifruit", "klutz", "knapsack", "larynx", "lengths", "lucky", "luxury", "lymph", "marquis", "matrix", "megahertz", "microwave", "mnemonic", "mystify", "naphtha", "nightclub", "nowadays", "numbskull", "nymph", "onyx", "ovary", "oxidize", "oxygen", "pajama", "peekaboo", "phlegm", "pixel", "pizazz", "pneumonia", "polka", "pshaw", "psyche", "puppy", "puzzling", "quartz", "queue", "quips", "quixotic", "quiz", "quizzes", "quorum", "razzmatazz", "rhubarb", "rhythm", "rickshaw", "schnapps", "scratch", "shiv", "snazzy", "sphinx", "spritz", "squawk", "staff", "strength", "strengths", "stretch", "stronghold", "stymied", "subway", "swivel", "syndrome", "thriftless", "thumbscrew", "topaz", "transcript", "transgress", "transplant", "triphthong", "twelfth", "twelfths", "unknown", "unworthy", "unzip", "uptown", "vaporize", "vixen", "vodka", "voodoo", "vortex", "voyeurism", "walkway", "waltz", "wave", "wavy", "waxy", "wellspring", "wheezy", "whiskey", "whizzing", "whomever", "wimpy", "witchcraft", "wizard", "woozy", "wristwatch", "wyvern", "xylophone", "yachtsman", "yippee", "yoked", "youthful", "yummy", "zephyr", "zigzag", "zigzagging", "zilch", "zipper", "zodiac", "zombie"
     ];
 
-   let hangmanSelectedWord = '';
+    let hangmanSelectedWord = '';
     let hangmanGuessedLetters = [];
     let hangmanTriesLeft = 8;
+
+    let randomNumber;
 
     function startHangmanGame() {
       document.getElementById('hangmanContainer').style.display = 'block';
@@ -98,6 +98,7 @@
     function startGuessingGame() {
       document.getElementById('hangmanContainer').style.display = 'none';
       document.getElementById('guessingContainer').style.display = 'block';
+      initializeGuessingGame();
     }
 
     function chooseRandomHangmanWord() {
@@ -152,13 +153,23 @@
       }
     }
 
+    function initializeGuessingGame() {
+      randomNumber = Math.floor(Math.random() * 100) + 1;
+      const guessingResultElement = document.getElementById('guessingResult');
+      guessingResultElement.textContent = '';
+      document.getElementById('guess').value = '';
+      document.getElementById('guess').removeAttribute('disabled');
+      document.getElementById('checkBtn').removeAttribute('disabled');
+    }
+
     function checkNumber() {
-      const randomNumber = Math.floor(Math.random() * 100) + 1;
       const userGuess = parseInt(document.getElementById('guess').value);
       const guessingResultElement = document.getElementById('guessingResult');
 
       if (userGuess === randomNumber) {
         guessingResultElement.textContent = 'Congratulations! You guessed the correct number!';
+        document.getElementById('guess').setAttribute('disabled', 'true');
+        document.getElementById('checkBtn').setAttribute('disabled', 'true');
       } else if (userGuess < randomNumber) {
         guessingResultElement.textContent = 'Try higher!';
       } else {
