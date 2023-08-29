@@ -1,368 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
-        }
+<title>Hangman</title>
+<style>
+body {
+  font-family: sans-serif;
+  background-color: white;
+}
 
-        h1 {
-            color: #333;
-        }
+.container {
+  width: 500px;
+  margin: 0 auto;
+}
 
-        select {
-            font-size: 18px;
-            padding: 10px;
-        }
+.chatbox {
+  border: 1px solid black;
+  padding: 10px;
+}
 
-        option {
-            font-size: 18px;
-        }
+.chatbot-message {
+  background-color: #fff;
+  color: #333;
+  border-radius: 50px;
+  width: 300px;
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+}
 
-        #game-selector {
-            margin: 20px 0;
-        }
+.user-message {
+  background-color: #ccc;
+  color: #333;
+}
 
-        #game-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-top: 40px;
-        }
+.curved-input {
+  border-radius: 50px;
+  width: 300px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 
-        #hangman-container, #number-guess-container {
-            display: none;
-            margin: 20px;
-            padding: 20px;
-            border: 2px solid #007bff;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.send-button {
+  background-color: #555;
+  color: #fff;
+  border-radius: 50px;
+  width: 100px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 
-        #hangman-container.active, #number-guess-container.active {
-            display: block;
-        }
+.hangman {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-        #word-container {
-            margin: 20px 0;
-            font-size: 36px;
-            color: #333;
-        }
+.hangman-body {
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
 
-        #letters-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
+.hangman-part {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
 
-        .letter-button {
-            font-size: 24px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border-radius: 5px;
-            outline: none;
-        }
+.hangman-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-        .letter-button:hover {
-            background-color: #0056b3;
-        }
-
-        .letter-button.disabled {
-            background-color: #aaa;
-            cursor: default;
-        }
-
-        #number-input {
-            font-size: 18px;
-            padding: 10px;
-            width: 120px;
-            text-align: center;
-        }
-
-        #number-guess-button {
-            font-size: 18px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        #number-guess-button:hover {
-            background-color: #0056b3;
-        }
-
-        #number-result {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
-        #hangman-art {
-            font-family: monospace;
-            font-size: 28px;
-            margin-top: 20px;
-        }
-
-        #tries-left {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #333;
-        }
-    </style>
+.hangman-option {
+  width: 100px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 10px;
+}
+</style>
 </head>
 <body>
-    <h1>Games</h1>
-    <select id="game-selector" onchange="selectGame()">
-        <option value="none">Select a Game</option>
-        <option value="hangman">Hangman</option>
-        <option value="number-guess">Number Guessing</option>
-    </select>
-    <div id="game-container">
-        <div id="hangman-container">
-            <h2>Hangman</h2>
-            <div id="word-container"></div>
-            <div id="letters-container"></div>
-            <div id="hangman-art"></div>
-            <div id="tries-left"></div>
-        </div>
-        <div id="number-guess-container">
-            <h2>Number Guessing Game</h2>
-            <input type="number" id="number-input" min="1" max="100" placeholder="Enter a number">
-            <button id="number-guess-button" onclick="checkNumberGuess()">Guess</button>
-            <p id="number-result"></p>
-        </div>
+<div class="container">
+  <div class="chatbox">
+    <div class="chatbot-message">
+      <h1>Hangman</h1>
+      <p>Choose a game:</p>
     </div>
+  </div>
+  <div class="hangman-options">
+    <div class="hangman-option">
+      <button>Hangman</button>
+    </div>
+    <div class="hangman-option">
+      <button>Guessing Game</button>
+    </div>
+  </div>
+  <div class="hangman">
+    <div class="hangman-body">
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+      <div class="hangman-part"></div>
+    </div>
+  </div>
+</div>
+<script>
+const chatbotMessage = document.querySelector(".chatbot-message");
+const hangman = document.querySelector(".hangman");
 
-    <script>
-        const wordList = [
-            "axiom", "azure", "bagpipes", "bandwagon", "banjo", "bayou", "beekeeper", "bikini",
-            "blitz", "blizzard", "boggle", "bookworm", "boxcar", "boxful", "buckaroo", "buffalo",
-            "buffoon", "buxom", "buzzard", "buzzing", "buzzwords", "caliph", "cobweb", "cockiness",
-            "croquet", "crypt", "curacao", "cycle", "daiquiri", "dirndl", "disavow", "dizzying",
-            "duplex", "dwarves", "embezzle", "equip", "espionage", "euouae", "exodus", "faking",
-            "fishhook", "fixable", "fjord", "flapjack", "flopping", "fluffiness", "flyby", "foxglove",
-            "frazzled", "frizzled", "fuchsia", "funny", "gabby", "galaxy", "galvanize", "gazebo",
-            "giaour", "gizmo", "glowworm", "glyph", "gnarly", "gnostic", "gossip", "grogginess",
-            "haiku", "haphazard", "hyphen", "iatrogenic", "icebox", "injury", "ivory", "ivy",
-            "jackpot", "jaundice", "jawbreaker", "jaywalk", "jazziest", "jazzy", "jelly", "jigsaw",
-            "jinx", "jiujitsu", "jockey", "jogging", "joking", "jovial", "joyful", "juicy", "jukebox",
-            "jumbo", "kayak", "kazoo", "keyhole", "khaki", "kilobyte", "kiosk", "kitsch", "kiwifruit",
-            "klutz", "knapsack", "larynx", "lengths", "lucky", "luxury", "lymph", "marquis", "matrix",
-            "megahertz", "microwave", "mnemonic", "mystify", "naphtha", "nightclub", "nowadays",
-            "numbskull", "nymph", "onyx", "ovary", "oxidize", "oxygen", "pajama", "peekaboo", "phlegm",
-            "pixel", "pizazz", "pneumonia", "polka", "pshaw", "psyche", "puppy", "puzzling", "quartz",
-            "queue", "quips", "quixotic", "quiz", "quizzes", "quorum", "razzmatazz", "rhubarb",
-            "rhythm", "rickshaw", "schnapps", "scratch", "shiv", "snazzy", "sphinx", "spritz", "squawk",
-            "staff", "strength", "strengths", "stretch", "stronghold", "stymied", "subway", "swivel",
-            "syndrome", "thriftless", "thumbscrew", "topaz", "transcript", "transgress", "transplant",
-            "triphthong", "twelfth", "twelfths", "unknown", "unworthy", "unzip", "uptown", "vaporize",
-            "vixen", "vodka", "voodoo", "vortex", "voyeurism", "walkway", "waltz", "wave", "wavy",
-            "waxy", "wellspring", "wheezy", "whiskey", "whizzing", "whomever", "wimpy", "witchcraft",
-            "wizard", "woozy", "wristwatch", "wyvern", "xylophone"
-        ];
+const hangmanOptions = document.querySelectorAll(".hangman-option");
 
-        let selectedWord = "";
-        let guesses = [];
-        const maxAttempts = 7;
-        let hangmanState = 0;
-
-        function selectGame() {
-            const gameSelector = document.getElementById("game-selector");
-            const selectedGame = gameSelector.value;
-
-            const hangmanContainer = document.getElementById("hangman-container");
-            const numberGuessContainer = document.getElementById("number-guess-container");
-
-            if (selectedGame === "hangman") {
-                hangmanContainer.classList.add("active");
-                numberGuessContainer.classList.remove("active");
-                initHangmanGame();
-            } else if (selectedGame === "number-guess") {
-                hangmanContainer.classList.remove("active");
-                numberGuessContainer.classList.add("active");
-                initNumberGuessGame();
-            } else {
-                hangmanContainer.classList.remove("active");
-                numberGuessContainer.classList.remove("active");
-            }
-        }
-
-        function initHangmanGame() {
-            selectedWord = wordList[Math.floor(Math.random() * wordList.length)];
-            guesses = [];
-            hangmanState = 0;
-            updateHangmanWordContainer();
-            updateHangmanLettersContainer();
-            updateHangmanArt();
-        }
-
-        function updateHangmanWordContainer() {
-            const wordContainer = document.getElementById("word-container");
-            wordContainer.innerHTML = selectedWord
-                .split("")
-                .map(letter => (guesses.includes(letter) ? letter : "_"))
-                .join(" ");
-        }
-
-        function updateHangmanLettersContainer() {
-            const lettersContainer = document.getElementById("letters-container");
-            lettersContainer.innerHTML = "abcdefghijklmnopqrstuvwxyz"
-                .split("")
-                .map(letter => `
-                    <button
-                        class="letter-button"
-                        ${guesses.includes(letter) ? "disabled" : ""}
-                        onclick="handleHangmanLetterClick('${letter}')"
-                    >
-                        ${letter}
-                    </button>
-                `)
-                .join("");
-        }
-
-        function handleHangmanLetterClick(letter) {
-            guesses.push(letter);
-            if (selectedWord.includes(letter)) {
-                if (isHangmanWordComplete()) {
-                    setTimeout(() => {
-                        alert("Congratulations! You won!");
-                        initHangmanGame();
-                    }, 0);
-                } else {
-                    updateHangmanWordContainer();
-                    updateHangmanLettersContainer();
-                }
-            } else {
-                hangmanState++;
-                if (hangmanState >= maxAttempts) {
-                    setTimeout(() => {
-                        alert(`Game over! The word was: ${selectedWord}`);
-                        initHangmanGame();
-                    }, 0);
-                } else {
-                    updateHangmanLettersContainer();
-                    updateHangmanArt();
-                }
-            }
-        }
-
-        function isHangmanWordComplete() {
-            return selectedWord.split("").every(letter => guesses.includes(letter));
-        }
-
-        function updateHangmanArt() {
-            const hangmanArt = document.getElementById("hangman-art");
-            const triesLeft = maxAttempts - hangmanState;
-            const hangmanStages = [
-                `
-                 _______
-                |       |
-                |
-                |
-                |
-                |
-                |
-                `,
-                `
-                 _______
-                |       |
-                |       O
-                |
-                |
-                |
-                |
-                `,
-                `
-                 _______
-                |       |
-                |       O
-                |       |
-                |
-                |
-                |
-                `,
-                `
-                 _______
-                |       |
-                |       O
-                |      /|
-                |
-                |
-                |
-                `,
-                `
-                 _______
-                |       |
-                |       O
-                |      /|\\
-                |
-                |
-                |
-                `,
-                `
-                 _______
-                |       |
-                |       O
-                |      /|\\
-                |      /
-                |
-                |
-                `,
-                `
-                 _______
-                |       |
-                |       O
-                |      /|\\
-                |      / \\
-                |
-                |
-                `,
-            ];
-            hangmanArt.innerHTML = hangmanStages[hangmanState];
-            document.getElementById("tries-left").textContent = `Tries left: ${triesLeft}`;
-            console.log(`Tries left: ${triesLeft}`);
-        }
-
-        function initNumberGuessGame() {
-            const gameContainer = document.getElementById("game-container");
-            gameContainer.innerHTML = `
-                <h2>Number Guessing Game</h2>
-                <input type="number" id="number-input" min="1" max="100" placeholder="Enter a number">
-                <button id="number-guess-button" onclick="checkNumberGuess()">Guess</button>
-                <p id="number-result"></p>
-            `;
-        }
-
-        function checkNumberGuess() {
-            const numberInput = parseInt(document.getElementById("number-input").value);
-            const targetNumber = Math.floor(Math.random() * 100) + 1;
-
-            if (isNaN(numberInput)) {
-                document.getElementById("number-result").textContent = "Please enter a valid number.";
-            } else if (numberInput === targetNumber) {
-                document.getElementById("number-result").textContent = `Congratulations! You guessed the number ${targetNumber} correctly!`;
-            } else {
-                document.getElementById("number-result").textContent = `Try again. The correct number was ${targetNumber}.`;
-            }
-        }
-
-        window.onload = selectGame;
-    </script>
+hangmanOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    if (option.textContent === "Hangman") {
+      hangman.classList.add("active");
+    } else {
+      hangman.classList.remove("active");
+    }
+  });
+});
+</script>
 </body>
 </html>
