@@ -7,6 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -14,29 +15,63 @@
       margin: 0;
     }
 
-    .game-container {
-      text-align: center;
-      border: 2px solid #ccc;
+    .container {
+      background-color: #fff;
       border-radius: 10px;
       padding: 20px;
       margin: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      margin: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #hangmanContainer {
+      display: none;
+    }
+
+    #hangmanDisplay {
+      text-align: center;
     }
 
     #letterPlaceholders {
       font-size: 24px;
-      margin: 10px 0;
+      margin: 20px 0;
     }
 
-    #hangmanGuessInput,
-    #guess {
+    #hangmanGuessInput {
       padding: 10px;
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 5px;
       margin-right: 10px;
+      width: 200px;
     }
 
-    button {
+    #guessBtn {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -46,13 +81,22 @@
       cursor: pointer;
     }
 
-    button:hover {
+    #guessBtn:hover {
       background-color: #0056b3;
     }
+
+    #hangmanResult {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #ff5722;
+    }
   </style>
+
 </head>
 <body>
+  <h1>For Shibani Ma'am</h1>
   <div class="game-container">
+    
     <h2>Select a Game</h2>
     <button onclick="startHangmanGame()">Hangman</button>
     <button onclick="startGuessingGame()">Guessing Game</button>
@@ -83,98 +127,69 @@
            "abruptly", "absurd", "abyss", "affix", "askew", "avenue", "awkward", "axiom", "azure", "bagpipes", "bandwagon", "banjo", "bayou", "beekeeper", "bikini", "blitz", "blizzard", "boggle", "bookworm", "boxcar", "boxful", "buckaroo", "buffalo", "buffoon", "buxom", "buzzard", "buzzing", "buzzwords", "caliph", "cobweb", "cockiness", "croquet", "crypt", "curacao", "cycle", "daiquiri", "dirndl", "disavow", "dizzying", "duplex", "dwarves", "embezzle", "equip", "espionage", "euouae", "exodus", "faking", "fishhook", "fixable", "fjord", "flapjack", "flopping", "fluffiness", "flyby", "foxglove", "frazzled", "frizzled", "fuchsia", "funny", "gabby", "galaxy", "galvanize", "gazebo", "giaour", "gizmo", "glowworm", "glyph", "gnarly", "gnostic", "gossip", "grogginess", "haiku", "haphazard", "hyphen", "iatrogenic", "icebox", "injury", "ivory", "ivy", "jackpot", "jaundice", "jawbreaker", "jaywalk", "jazziest", "jazzy", "jelly", "jigsaw", "jinx", "jiujitsu", "jockey", "jogging", "joking", "jovial", "joyful", "juicy", "jukebox", "jumbo", "kayak", "kazoo", "keyhole", "khaki", "kilobyte", "kiosk", "kitsch", "kiwifruit", "klutz", "knapsack", "larynx", "lengths", "lucky", "luxury", "lymph", "marquis", "matrix", "megahertz", "microwave", "mnemonic", "mystify", "naphtha", "nightclub", "nowadays", "numbskull", "nymph", "onyx", "ovary", "oxidize", "oxygen", "pajama", "peekaboo", "phlegm", "pixel", "pizazz", "pneumonia", "polka", "pshaw", "psyche", "puppy", "puzzling", "quartz", "queue", "quips", "quixotic", "quiz", "quizzes", "quorum", "razzmatazz", "rhubarb", "rhythm", "rickshaw", "schnapps", "scratch", "shiv", "snazzy", "sphinx", "spritz", "squawk", "staff", "strength", "strengths", "stretch", "stronghold", "stymied", "subway", "swivel", "syndrome", "thriftless", "thumbscrew", "topaz", "transcript", "transgress", "transplant", "triphthong", "twelfth", "twelfths", "unknown", "unworthy", "unzip", "uptown", "vaporize", "vixen", "vodka", "voodoo", "vortex", "voyeurism", "walkway", "waltz", "wave", "wavy", "waxy", "wellspring", "wheezy", "whiskey", "whizzing", "whomever", "wimpy", "witchcraft", "wizard", "woozy", "wristwatch", "wyvern", "xylophone", "yachtsman", "yippee", "yoked", "youthful", "yummy", "zephyr", "zigzag", "zigzagging", "zilch", "zipper", "zodiac", "zombie"
     ];
 
-    let hangmanSelectedWord = '';
+      let hangmanSelectedWord = '';
     let hangmanGuessedLetters = [];
-    let hangmanTriesLeft = 8;
-
-    let randomNumber;
+    let hangmanTriesLeft = 7;
+    let hangmanImageIndex = 0;
 
     function startHangmanGame() {
       document.getElementById('hangmanContainer').style.display = 'block';
-      document.getElementById('guessingContainer').style.display = 'none';
+      document.querySelector('.btn-container').style.display = 'none';
       chooseRandomHangmanWord();
-    }
-
-    function startGuessingGame() {
-      document.getElementById('hangmanContainer').style.display = 'none';
-      document.getElementById('guessingContainer').style.display = 'block';
-      initializeGuessingGame();
     }
 
     function chooseRandomHangmanWord() {
       hangmanSelectedWord = hangmanWords[Math.floor(Math.random() * hangmanWords.length)];
       hangmanGuessedLetters = Array(hangmanSelectedWord.length).fill('_');
-      updateHangmanLetterPlaceholders();
-      hangmanTriesLeft = 8;
-      updateTriesLeft();
+      updateHangmanDisplay();
     }
 
-    function updateHangmanLetterPlaceholders() {
+    function updateHangmanDisplay() {
+      const hangmanImage = document.getElementById('hangmanImage');
       const letterPlaceholders = document.getElementById('letterPlaceholders');
-      letterPlaceholders.textContent = hangmanGuessedLetters.join(' ');
-    }
+      const wordToGuess = document.getElementById('wordToGuess');
 
-    function updateTriesLeft() {
-      document.getElementById('triesLeft').textContent = `Tries Left: ${hangmanTriesLeft}`;
+      hangmanImage.src = `hangman${hangmanImageIndex}.png`;
+      letterPlaceholders.textContent = hangmanGuessedLetters.join(' ');
+      wordToGuess.textContent = `Word to Guess: ${hangmanSelectedWord.length} letters`;
     }
 
     function checkHangmanLetter() {
-      if (hangmanTriesLeft > 0) {
-        const guessInput = document.getElementById('hangmanGuessInput');
-        const guess = guessInput.value.toLowerCase();
+      const guessInput = document.getElementById('hangmanGuessInput');
+      const guess = guessInput.value.toLowerCase();
 
-        if (guess.length === 1) {
-          const foundIndices = [];
-
+      if (guess.length === 1 && /^[a-zA-Z]$/.test(guess)) {
+        if (hangmanSelectedWord.includes(guess)) {
           for (let i = 0; i < hangmanSelectedWord.length; i++) {
             if (hangmanSelectedWord[i] === guess) {
-              foundIndices.push(i);
+              hangmanGuessedLetters[i] = guess;
             }
           }
-
-          if (foundIndices.length > 0) {
-            for (const index of foundIndices) {
-              hangmanGuessedLetters[index] = guess;
-            }
-            updateHangmanLetterPlaceholders();
-          } else {
-            hangmanTriesLeft--;
-            updateTriesLeft();
-          }
-
-          guessInput.value = '';
-
-          if (!hangmanGuessedLetters.includes('_')) {
-            document.getElementById('hangmanResult').textContent = 'Congratulations! You guessed the word!';
-          }
+        } else {
+          hangmanTriesLeft--;
+          hangmanImageIndex++;
         }
-      } else {
-        document.getElementById('hangmanResult').textContent = 'Out of tries. The word was: ' + hangmanSelectedWord;
+
+        guessInput.value = '';
+        updateHangmanDisplay();
+
+        if (hangmanTriesLeft === 0) {
+          endHangmanGame(false);
+        } else if (!hangmanGuessedLetters.includes('_')) {
+          endHangmanGame(true);
+        }
       }
     }
 
-    function initializeGuessingGame() {
-      randomNumber = Math.floor(Math.random() * 100) + 1;
-      const guessingResultElement = document.getElementById('guessingResult');
-      guessingResultElement.textContent = '';
-      document.getElementById('guess').value = '';
-      document.getElementById('guess').removeAttribute('disabled');
-      document.getElementById('checkBtn').removeAttribute('disabled');
-    }
-
-    function checkNumber() {
-      const userGuess = parseInt(document.getElementById('guess').value);
-      const guessingResultElement = document.getElementById('guessingResult');
-
-      if (userGuess === randomNumber) {
-        guessingResultElement.textContent = 'Congratulations! You guessed the correct number!';
-        document.getElementById('guess').setAttribute('disabled', 'true');
-        document.getElementById('checkBtn').setAttribute('disabled', 'true');
-      } else if (userGuess < randomNumber) {
-        guessingResultElement.textContent = 'Try higher!';
+    function endHangmanGame(isWinner) {
+      const hangmanResult = document.getElementById('hangmanResult');
+      if (isWinner) {
+        hangmanResult.textContent = 'Congratulations! You guessed the word!';
       } else {
-        guessingResultElement.textContent = 'Try lower!';
+        hangmanResult.textContent = `Game over! The word was: ${hangmanSelectedWord}`;
       }
+      document.getElementById('hangmanGuessInput').setAttribute('disabled', 'true');
+      document.getElementById('guessBtn').setAttribute('disabled', 'true');
     }
   </script>
 </body>
