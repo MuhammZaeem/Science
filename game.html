@@ -57,6 +57,11 @@
       text-align: center;
     }
 
+    #wordToGuess {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
     #letterPlaceholders {
       font-size: 24px;
       margin: 20px 0;
@@ -90,36 +95,78 @@
       margin-top: 20px;
       color: #ff5722;
     }
-  </style>
 
+    #numberGameContainer {
+      display: none;
+    }
+
+    #numberGameDisplay {
+      text-align: center;
+    }
+
+    #numberToGuess {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    #numberGuessInput {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-right: 10px;
+      width: 200px;
+    }
+
+    #checkBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #checkBtn:hover {
+      background-color: #0056b3;
+    }
+
+    #numberGameResult {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #ff5722;
+    }
+  </style>
 </head>
 <body>
-  <h1>For Shibani Ma'am</h1>
-  <div class="game-container">
-    
-    <h2>Select a Game</h2>
-    <button onclick="startHangmanGame()">Hangman</button>
-    <button onclick="startGuessingGame()">Guessing Game</button>
+  <div class="container">
+    <h1>Word Games</h1>
+    <div class="btn-container">
+      <button onclick="startHangmanGame()">Play Hangman</button>
+      <button onclick="startNumberGame()">Play Number Guessing</button>
+    </div>
   </div>
 
-  <div class="game-container" id="hangmanContainer" style="display: none;">
+  <div class="container" id="hangmanContainer">
     <h2>Hangman Game</h2>
-    <div id="wordDisplay">
-      <p>Guess the word:</p>
+    <div id="hangmanDisplay">
+      <p id="wordToGuess">Word to Guess:</p>
       <div id="letterPlaceholders"></div>
       <input type="text" id="hangmanGuessInput" placeholder="Enter your guess">
-      <button onclick="checkHangmanLetter()">Guess</button>
+      <button id="guessBtn" onclick="checkHangmanLetter()">Guess</button>
+      <p id="hangmanResult"></p>
     </div>
-    <p id="hangmanResult"></p>
-    <p id="triesLeft">Tries Left: 8</p>
   </div>
 
-  <div class="game-container" id="guessingContainer" style="display: none;">
-    <h2>Guessing Game</h2>
-    <p>Try to guess the random number between 1 and 100.</p>
-    <input type="number" id="guess" placeholder="Enter your guess">
-    <button id="checkBtn" onclick="checkNumber()">Check</button>
-    <p id="guessingResult"></p>
+  <div class="container" id="numberGameContainer">
+    <h2>Number Guessing Game</h2>
+    <div id="numberGameDisplay">
+      <p id="numberToGuess">Number to Guess: 0</p>
+      <input type="number" id="numberGuessInput" placeholder="Enter your guess">
+      <button id="checkBtn" onclick="checkNumber()">Check</button>
+      <p id="numberGameResult"></p>
+    </div>
   </div>
 
   <script>
