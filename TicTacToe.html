@@ -23,6 +23,13 @@
       font-weight: bold;
       margin-bottom: 20px;
     }
+    .player-name {
+      margin-bottom: 20px;
+    }
+    .player-name input {
+      margin-right: 10px;
+      padding: 5px;
+    }
     .board {
       display: flex;
       flex-direction: column;
@@ -61,7 +68,12 @@
 <body>
   <div class="container">
     <h1 class="title">Tic Tac Toe</h1>
-    <div class="board" id="board">
+    <div class="player-name">
+      <input type="text" id="player1" placeholder="Enter Player 1 Name">
+      <input type="text" id="player2" placeholder="Enter Player 2 Name">
+      <button onclick="startGame()">Start Game</button>
+    </div>
+    <div class="board" id="board" style="display: none;">
       <div class="row">
         <div class="cell" onclick="handleCellClick(0, 0)"></div>
         <div class="cell" onclick="handleCellClick(0, 1)"></div>
@@ -82,12 +94,25 @@
   </div>
 
   <script>
-    let currentPlayer = 'X';
+    let currentPlayer;
+    let player1Name;
+    let player2Name;
     const board = [
       ['', '', ''],
       ['', '', ''],
       ['', '', '']
     ];
+
+    function startGame() {
+      player1Name = document.getElementById('player1').value || 'Player 1';
+      player2Name = document.getElementById('player2').value || 'Player 2';
+      currentPlayer = 'X'; // Player 1 starts
+      document.querySelector('.player-name').style.display = 'none';
+      document.getElementById('board').style.display = 'flex';
+      document.querySelector('.title').textContent = `${player1Name}'s Turn`;
+      document.getElementById('player1').disabled = true;
+      document.getElementById('player2').disabled = true;
+    }
 
     function handleCellClick(row, col) {
       if (!board[row][col]) {
@@ -95,14 +120,21 @@
         board[row][col] = currentPlayer;
         checkWinner();
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        updateTurn();
       }
+    }
+
+    function updateTurn() {
+      const currentPlayerName = currentPlayer === 'X' ? player1Name : player2Name;
+      document.querySelector('.title').textContent = `${currentPlayerName}'s Turn`;
     }
 
     function checkWinner() {
       // Check rows
       for (let i = 0; i < 3; i++) {
         if (board[i][0] !== '' && board[i][0] === board[i][1] && board[i][0] === board[i][2]) {
-          alert(`Player ${board[i][0]} wins!`);
+          const winnerName = board[i][0] === 'X' ? player1Name : player2Name;
+          alert(`${winnerName} wins!`);
           resetBoard();
           return;
         }
@@ -111,7 +143,8 @@
       // Check columns
       for (let i = 0; i < 3; i++) {
         if (board[0][i] !== '' && board[0][i] === board[1][i] && board[0][i] === board[2][i]) {
-          alert(`Player ${board[0][i]} wins!`);
+          const winnerName = board[0][i] === 'X' ? player1Name : player2Name;
+          alert(`${winnerName} wins!`);
           resetBoard();
           return;
         }
@@ -119,12 +152,14 @@
 
       // Check diagonals
       if (board[0][0] !== '' && board[0][0] === board[1][1] && board[0][0] === board[2][2]) {
-        alert(`Player ${board[0][0]} wins!`);
+        const winnerName = board[0][0] === 'X' ? player1Name : player2Name;
+        alert(`${winnerName} wins!`);
         resetBoard();
         return;
       }
       if (board[0][2] !== '' && board[0][2] === board[1][1] && board[0][2] === board[2][0]) {
-        alert(`Player ${board[0][2]} wins!`);
+        const winnerName = board[0][2] === 'X' ? player1Name : player2Name;
+        alert(`${winnerName} wins!`);
         resetBoard();
         return;
       }
@@ -141,6 +176,13 @@
       board.forEach(row => row.fill(''));
       document.getElementById('board').querySelectorAll('.cell').forEach(cell => cell.textContent = '');
       currentPlayer = 'X';
+      document.querySelector('.player-name').style.display = 'block';
+      document.getElementById('player1').value = '';
+      document.getElementById('player2').value = '';
+      document.querySelector('.title').textContent = 'Tic Tac Toe';
+      document.getElementById('player1').disabled = false;
+      document.getElementById('player2').disabled = false;
+      document.getElementById('board').style.display = 'none';
     }
   </script>
 </body>
