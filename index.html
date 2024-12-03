@@ -1,1 +1,110 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Olympiad Dates</title> <style> body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; } button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; background-color: #4CAF50; color: white; } button:hover { background-color: #45a049; } </style> </head> <body> <h1>Olympiad Subjects</h1> <div> <button onclick="showDate('Math')">Math</button> <button onclick="showDate('English')">English</button> <button onclick="showDate('Science')">Science</button> <button onclick="showDate('Social Science')">Social Science</button> <button onclick="showDate('Cyber')">Cyber</button> <button onclick="showDate('GK')">GK</button> </div> <script> function showDate(subject) { let date; switch (subject) { case 'Math': date = '22 October 2024'; break; case 'English': date = '22 October 2024'; break; case 'Science': date = '3 December 2024'; break; case 'Social Science': date = '23 January 2025'; break; case 'Cyber': date = '21 January 2025'; break; case 'GK': date = '15 October 2024'; break; default: date = 'Unknown'; } alert(subject + ' Date: ' + date); } </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #74ebd5, #acb6e5); /* Background gradient */
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        .container img {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        .number-display {
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .save-button {
+            background-color: #007bff;
+        }
+        .save-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="aaaaaaa.jfif" alt="User Image">
+        <h1>Namaz Counter</h1>
+        <h2 class="number-display" id="numberDisplay">₹0</h2>
+        <button class="button" id="incrementBtn">+</button>
+        <button class="button" id="decrementBtn">-</button>
+        <br>
+        <button class="button save-button" id="saveBtn">Save</button>
+    </div>
+
+    <script>
+        // Get references to elements
+        const numberDisplay = document.getElementById('numberDisplay');
+        const incrementBtn = document.getElementById('incrementBtn');
+        const decrementBtn = document.getElementById('decrementBtn');
+        const saveBtn = document.getElementById('saveBtn');
+
+        // Load saved number from local storage or default to 0
+        let number = localStorage.getItem('savedNumber')
+            ? parseInt(localStorage.getItem('savedNumber'))
+            : 0;
+        updateDisplay();
+
+        // Increment button
+        incrementBtn.addEventListener('click', () => {
+            number += 5;
+            updateDisplay();
+        });
+
+        // Decrement button
+        decrementBtn.addEventListener('click', () => {
+            number -= 5;
+            updateDisplay();
+        });
+
+        // Save button
+        saveBtn.addEventListener('click', () => {
+            localStorage.setItem('savedNumber', number);
+            alert('Number saved!');
+        });
+
+        // Function to update the display
+        function updateDisplay() {
+            numberDisplay.textContent = `₹${number}`;
+        }
+    </script>
+</body>
+</html>
