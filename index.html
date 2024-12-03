@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Counter</title>
+    <title>Number Counter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            background: linear-gradient(to right, #74ebd5, #acb6e5); /* Background gradient */
         }
         .container {
             background: white;
@@ -61,9 +61,9 @@
 </head>
 <body>
     <div class="container">
-        <img src="C:\Users\naufa\Desktop\aaaaaaa.jfif" alt="User Image">
-        <h1>Online Counter</h1>
-        <h2 class="number-display" id="numberDisplay">Loading...</h2>
+        <img src="aaaaaaa.jfif" alt="User Image">
+        <h1>Namaz Counter</h1>
+        <h2 class="number-display" id="numberDisplay">₹0</h2>
         <button class="button" id="incrementBtn">+</button>
         <button class="button" id="decrementBtn">-</button>
         <br>
@@ -71,62 +71,40 @@
     </div>
 
     <script>
-        const API_URL = "https://example.com/api/number"; // Replace with your API URL
+        // Get references to elements
         const numberDisplay = document.getElementById('numberDisplay');
         const incrementBtn = document.getElementById('incrementBtn');
         const decrementBtn = document.getElementById('decrementBtn');
         const saveBtn = document.getElementById('saveBtn');
 
-        let number = 0;
+        // Load saved number from local storage or default to 0
+        let number = localStorage.getItem('savedNumber')
+            ? parseInt(localStorage.getItem('savedNumber'))
+            : 0;
+        updateDisplay();
 
-        // Fetch the current number from the server
-        async function fetchNumber() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                number = data.number;
-                updateDisplay();
-            } catch (error) {
-                console.error("Error fetching number:", error);
-                numberDisplay.textContent = "Error!";
-            }
-        }
-
-        // Save the number to the server
-        async function saveNumber() {
-            try {
-                await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ number }),
-                });
-                alert("Number saved!");
-            } catch (error) {
-                console.error("Error saving number:", error);
-                alert("Failed to save number!");
-            }
-        }
-
-        // Update the displayed number
-        function updateDisplay() {
-            numberDisplay.textContent = `₹${number}`;
-        }
-
-        // Event Listeners
+        // Increment button
         incrementBtn.addEventListener('click', () => {
             number += 5;
             updateDisplay();
         });
 
+        // Decrement button
         decrementBtn.addEventListener('click', () => {
             number -= 5;
             updateDisplay();
         });
 
-        saveBtn.addEventListener('click', saveNumber);
+        // Save button
+        saveBtn.addEventListener('click', () => {
+            localStorage.setItem('savedNumber', number);
+            alert('Number saved!');
+        });
 
-        // Initial fetch
-        fetchNumber();
+        // Function to update the display
+        function updateDisplay() {
+            numberDisplay.textContent = `₹${number}`;
+        }
     </script>
 </body>
 </html>
